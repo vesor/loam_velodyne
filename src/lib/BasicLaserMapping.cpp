@@ -34,6 +34,7 @@
 #include "loam_velodyne/BasicLaserMapping.h"
 #include "loam_velodyne/nanoflann_pcl.h"
 #include "math_utils.h"
+#include "loam_velodyne/common.h"
 
 #include <Eigen/Eigenvalues>
 #include <Eigen/QR>
@@ -255,6 +256,7 @@ bool BasicLaserMapping::createDownsizedMap()
       *_laserCloudSurround += *_laserCloudCornerArray[ind];
       *_laserCloudSurround += *_laserCloudSurfArray[ind];
    }
+   convertForViz(*_laserCloudSurround);
 
    // down size map cloud
    _laserCloudSurroundDS->clear();

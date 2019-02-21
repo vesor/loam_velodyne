@@ -61,6 +61,16 @@ inline void publishCloudMsg(ros::Publisher& publisher,
   publisher.publish(msg);
 }
 
+template <typename PointT>
+inline void convertForViz(pcl::PointCloud<PointT>& cloud) {
+  for(auto& pt : cloud) {
+    auto tmp = pt.x;
+    pt.x = pt.z;
+    pt.z = pt.y;
+    pt.y = tmp; 
+  }
+}
+
 
 // ROS time adapters
 inline Time fromROSTime(ros::Time const& rosTime)
