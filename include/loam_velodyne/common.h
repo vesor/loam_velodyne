@@ -61,14 +61,43 @@ inline void publishCloudMsg(ros::Publisher& publisher,
   publisher.publish(msg);
 }
 
+// The coordinate in loam is: x leftward, y upward, z forward.
+// The coordinate in ROS is: x forward, y rightward, z upward.
 template <typename PointT>
-inline void convertForViz(pcl::PointCloud<PointT>& cloud) {
+inline void transformForROS(pcl::PointCloud<PointT>& cloud) {
   for(auto& pt : cloud) {
     auto tmp = pt.x;
     pt.x = pt.z;
     pt.z = pt.y;
     pt.y = tmp; 
   }
+}
+
+template <typename PointT>
+inline void transformForLOAM(PointT& pt) {
+  auto tmp = pt.x;
+  pt.x = pt.y;
+  pt.y = pt.z;
+  pt.z = tmp;
+}
+
+
+template <typename PointT>
+inline pcl::PointCloud<PointT> clipForViz(const pcl::PointCloud<PointT>& cloud) {
+  // limit range
+  const float minHeight = 0.8 - 1.58;
+  const float maxHeight = 1.8 - 1.58;
+  // const float minRange = -0.5;
+  // const float maxRange = 350;
+
+  pcl::PointCloud<PointT> cloud_clipped;
+  for (const auto& point : cloud) {
+    if (point.y < minHeight || point.y > maxHeight) continue;
+    // float distance = std::sqrt(point.x * point.x + point.y * point.y + point.z * point.z);
+    // if (distance < minRange || distance > maxRange) continue;
+    cloud_clipped.push_back(point);
+  }
+  return cloud_clipped;
 }
 
 

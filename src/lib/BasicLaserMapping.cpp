@@ -253,10 +253,10 @@ bool BasicLaserMapping::createDownsizedMap()
    _laserCloudSurround->clear();
    for (auto ind : _laserCloudSurroundInd)
    {
-      *_laserCloudSurround += *_laserCloudCornerArray[ind];
-      *_laserCloudSurround += *_laserCloudSurfArray[ind];
+      *_laserCloudSurround += clipForViz(*_laserCloudCornerArray[ind]);
+      *_laserCloudSurround += clipForViz(*_laserCloudSurfArray[ind]);
    }
-   convertForViz(*_laserCloudSurround);
+   transformForROS(*_laserCloudSurround);
 
    // down size map cloud
    _laserCloudSurroundDS->clear();

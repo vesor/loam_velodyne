@@ -179,9 +179,10 @@ void MultiScanRegistration::process(const pcl::PointCloud<pcl::PointXYZ>& laserC
 
   // extract valid points from input cloud
   for (int i = 0; i < cloudSize; i++) {
-    point.x = laserCloudIn[i].y;
-    point.y = laserCloudIn[i].z;
-    point.z = laserCloudIn[i].x;
+    point.x = laserCloudIn[i].x;
+    point.y = laserCloudIn[i].y;
+    point.z = laserCloudIn[i].z;
+    transformForLOAM(point);
 
     // skip NaN and INF valued points
     if (!pcl_isfinite(point.x) ||

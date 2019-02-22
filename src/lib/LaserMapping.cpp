@@ -281,7 +281,7 @@ void LaserMapping::publishResult()
 
    // publish transformed full resolution input cloud
    auto cloud_viz = laserCloud();
-   convertForViz(cloud_viz);
+   transformForROS(cloud_viz);
    publishCloudMsg(_pubLaserCloudFullRes, cloud_viz, _timeLaserOdometry, "/camera_init");
 
    // publish odometry after mapped transformations
